@@ -38,7 +38,7 @@ app.use(express.json());
 args["port"];
 var HTTP_PORT = args.port || 5000;
 
-if(args.log == false) {
+if(args.log == 'false') {
     console.log("Not creating a new access.log")
 }
 else {
