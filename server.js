@@ -74,6 +74,16 @@ app.use( (req, res, next) => {
     next();
     })
 
+if(args.debug === true) {
+    app.get('/app/log/access/', (req, res) => {
+        const stmt = db.prepare("SELECT * FROM accesslog").all()
+        res.status(200).json(stmt)
+    });
+    app.get('/app/error', (req, res) => {
+        throw new Error('Error test successful.')
+    });
+}   
+
 /** Simple coin flip */
 function coinFlip() {
     return (Math.floor(Math.random() * 2) == 0) ? "heads" : "tails";
@@ -155,13 +165,3 @@ app.get('/app/flip/call/:guess(heads|tails)/', (req, res) => {
 app.use(function(req, res){
     res.status(404).send('404 NOT FOUND')
 });
-
-if(args.debug === true) {
-    app.get('/app/log/access/', (req, res) => {
-        const stmt = db.prepare("SELECT * FROM accesslog").all()
-        res.status(200).json(stmt)
-    });
-    app.get('/app/error', (req, res) => {
-        throw new Error('Error test successful.')
-    });
-}
